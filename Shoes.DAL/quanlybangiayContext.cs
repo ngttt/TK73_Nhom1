@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Shoes.Common.Req;
 
 namespace Shoes.DAL.Models
 {
@@ -17,8 +18,8 @@ namespace Shoes.DAL.Models
 
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<OderDetails> OderDetails { get; set; }
-        public virtual DbSet<Oders> Oders { get; set; }
+        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Productss> Productss { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
 
@@ -26,7 +27,6 @@ namespace Shoes.DAL.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=quanlybangiay;Persist Security Info=True;User ID=sa;Password=1234;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;");
             }
         }
@@ -38,8 +38,7 @@ namespace Shoes.DAL.Models
                 entity.HasKey(e => e.CategoryId);
 
                 entity.Property(e => e.CategoryId)
-                    .HasColumnName("CategoryID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("CategoryID");
 
                 entity.Property(e => e.CategoryName).HasMaxLength(50);
             });
@@ -49,8 +48,7 @@ namespace Shoes.DAL.Models
                 entity.HasKey(e => e.EmployeeId);
 
                 entity.Property(e => e.EmployeeId)
-                    .HasColumnName("EmployeeID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("EmployeeID");
 
                 entity.Property(e => e.Country).HasMaxLength(50);
 
@@ -59,7 +57,7 @@ namespace Shoes.DAL.Models
                 entity.Property(e => e.LastName).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<OderDetails>(entity =>
+            modelBuilder.Entity<OrderDetails>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.ProductId });
 
@@ -68,25 +66,24 @@ namespace Shoes.DAL.Models
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
                 entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OderDetails)
+                    .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OderDetails_Oders");
+                    .HasConstraintName("FK_OrderDetails_Orders");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.OderDetails)
+                    .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OderDetails_Productss1");
+                    .HasConstraintName("FK_OrderDetails_Productss1");
             });
 
-            modelBuilder.Entity<Oders>(entity =>
+            modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId);
 
                 entity.Property(e => e.OrderId)
-                    .HasColumnName("OrderID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("OrderID");
 
                 entity.Property(e => e.City).HasMaxLength(50);
 
@@ -97,10 +94,10 @@ namespace Shoes.DAL.Models
                 entity.Property(e => e.ShipName).HasMaxLength(50);
 
                 entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.Oders)
+                    .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Oders_Employees");
+                    .HasConstraintName("FK_Orders_Employees");
             });
 
             modelBuilder.Entity<Productss>(entity =>
@@ -108,8 +105,7 @@ namespace Shoes.DAL.Models
                 entity.HasKey(e => e.ProductId);
 
                 entity.Property(e => e.ProductId)
-                    .HasColumnName("ProductID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("ProductID");
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
@@ -135,8 +131,7 @@ namespace Shoes.DAL.Models
             modelBuilder.Entity<Suppliers>(entity =>
             {
                 entity.Property(e => e.SuppliersId)
-                    .HasColumnName("SuppliersID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("SuppliersID");
 
                 entity.Property(e => e.City).HasMaxLength(50);
 

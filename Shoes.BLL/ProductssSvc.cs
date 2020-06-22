@@ -53,11 +53,11 @@ namespace Shoes.BLL
             return res;
         }
 
-        public SingleRsp CreateProduct(ProductssReq pro)
+        public SingleRsp CreateProduct(CreateProductReq pro)
         {
             var res = new SingleRsp();
             Productss products = new Productss();
-            products.ProductId = pro.ProductId;
+            //products.ProductId = pro.ProductId;
             products.ProductName = pro.ProductName;
             products.CategoryId = pro.CategoryId;
             products.SupplierId = pro.SupplierId;
@@ -73,7 +73,7 @@ namespace Shoes.BLL
         {
             var res = new SingleRsp();
             Productss products = new Productss();
-            products = _rep.Read(pro.ProductId);            
+            products = _rep.Read(pro.ProductId.Value);            
             
             products.ProductName = pro.ProductName;
             products.CategoryId = pro.CategoryId;
@@ -84,6 +84,19 @@ namespace Shoes.BLL
             products.Image = pro.Image;
 
             res = _rep.UpdateProduct(products);
+            return res;
+        }
+        public SingleRsp DeleteProductss(int id)
+        {
+            var res = new SingleRsp();
+            try
+            {
+                res.Data = _rep.RemoveProductss(id);
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.StackTrace);
+            }
             return res;
         }
     }

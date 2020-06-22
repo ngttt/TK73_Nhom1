@@ -15,10 +15,10 @@ D:\github\school\TK73_Nhom1\Shoes.Common\bin\Debug\netcoreapp3.1\Shoes.Common.ru
 D:\github\school\TK73_Nhom1\Shoes.Common\bin\Debug\netcoreapp3.1\Shoes.Common.runtimeconfig.dev.json
 D:\github\school\TK73_Nhom1\Shoes.Common\bin\Debug\netcoreapp3.1\Shoes.Common.dll
 D:\github\school\TK73_Nhom1\Shoes.Common\bin\Debug\netcoreapp3.1\Shoes.Common.pdb
-D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.csprojAssemblyReference.cache
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.csproj.CoreCompileInputs.cache
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.AssemblyInfoInputs.cache
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.AssemblyInfo.cs
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.dll
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.pdb
 D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.genruntimeconfig.cache
+D:\github\school\TK73_Nhom1\Shoes.Common\obj\Debug\netcoreapp3.1\Shoes.Common.csprojAssemblyReference.cache

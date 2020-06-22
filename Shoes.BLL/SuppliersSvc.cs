@@ -9,6 +9,7 @@ namespace Shoes.BLL
 {
     using DAL;
     using DAL.Models;
+    using Shoes.Common.Req;
 
     public class SuppliersSvc : GenericSvc<SuppliersRep, Suppliers>
     {
@@ -51,6 +52,48 @@ namespace Shoes.BLL
 
             return res;
         }
+
+        public object SearchSupplier(string keyword, int page, int size)
+        {
+            var pro = All.Where(x => x.SuppliersName.Contains(keyword));
+            var offset = (page - 1) * size;
+            var total = pro.Count();
+            int totalPage = ((total) % size) == 0 ? (total / size) : ((int)(total / size) + 1);
+            var data = pro.OrderBy(x => x.SuppliersId).Skip(offset).Take(size).ToList();
+            var res = new
+            {
+                Data = data,
+                TotalRecord = total,
+                TotalPage = totalPage,
+                Size = size,
+                Page = page,
+            };
+            return res;
+        }
+
+        public SingleRsp CreateSupplier(CreateSupplierReq spl)
+        {
+            var res = new SingleRsp();
+            Suppliers suppliers = new Suppliers();
+            //suppliers.SuppliersId = spl.SuppliersId;
+            suppliers.SuppliersName = spl.SuppliersName;
+            suppliers.City = spl.City;
+            res = _rep.CreateSupplier(suppliers);
+            return res;
+        }
+
+        public SingleRsp UpdateSupplier(SupplierReq spl)
+        {
+            var res = new SingleRsp();
+            Suppliers suppliers= new Suppliers();
+            suppliers = _rep.Read(spl.SuppliersId);
+
+            suppliers.SuppliersName = spl.SuppliersName;
+            suppliers.City = spl.City;
+
+            res = _rep.UpdateSupplier(suppliers);
+            return res;
+        }
         #endregion
 
         #region -- Methods --
@@ -59,8 +102,19 @@ namespace Shoes.BLL
         /// Initialize
         /// </summary>
         public SuppliersSvc() { }
-
-
         #endregion
+        public SingleRsp DeleteSuppliers(int id)
+        {
+            var res = new SingleRsp();
+            try
+            {
+                res.Data = _rep.RemoveSuppliers(id);
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.StackTrace);
+            }
+            return res;
+        }
     }
 }

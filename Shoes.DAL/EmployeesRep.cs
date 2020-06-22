@@ -4,6 +4,9 @@ using System.Linq;
 namespace Shoes.DAL
 {
     using Models;
+    using Shoes.Common.Rsp;
+    using System;
+
     public class EmployeesRep : GenericRep<quanlybangiayContext, Employees>
     {
         #region -- Overrides --
@@ -41,5 +44,58 @@ namespace Shoes.DAL
         /// </summary>
 
         #endregion
+        public SingleRsp CreateEmployees(Employees emp)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Employees.Add(emp);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+
+        public SingleRsp UpdateEmployees(Employees emp)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Employees.Update(emp);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+
+        public int RemoveEmployees(int id)
+        {
+            var m = base.All.First(i => i.EmployeeId == id);
+            Context.Remove(m);
+            Context.SaveChanges();
+            return m.EmployeeId;
+        }
     }
 }

@@ -10,9 +10,8 @@ namespace Shoes.Web.Controllers
     using BLL;
     using DAL.Models;
     using Common.Req;
-    using System.Collections.Generic;
-    //using BLL.Req;
     using Common.Rsp;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -39,6 +38,38 @@ namespace Shoes.Web.Controllers
             return Ok(res);
         }
 
+        [HttpPost("search-order")]
+
+        public IActionResult SearchOrder([FromBody]SearchOrderReq req)
+        {
+            var res = new SingleRsp();
+            var pros = _svc.SearchOrder(req.Keyword, req.Page, req.Size);
+            res.Data = pros;
+            return Ok(res);
+        }
+
+        [HttpPost("create-order")]
+
+        public IActionResult CreateOrder([FromBody]CreateOrdersReq req)
+        {
+            var res = _svc.CreateOrder(req);
+            return Ok(res);
+        }
+
+        [HttpPost("update-order")]
+
+        public IActionResult UpdateOrder([FromBody]OrdersReq req)
+        {
+            var res = _svc.UpdateOrder(req);
+            return Ok(res);
+        }
+
+        [HttpPost("delete-orders")]
+        public IActionResult DeleteOrders(OrdersReq req)
+        {
+            var res = _svc.DeleteOrders(req.OrderId);
+            return Ok(res);
+        }
         private readonly OrdersSvc _svc;
     }
 }

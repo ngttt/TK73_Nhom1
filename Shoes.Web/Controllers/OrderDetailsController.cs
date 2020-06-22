@@ -39,6 +39,38 @@ namespace Shoes.Web.Controllers
             return Ok(res);
         }
 
+        [HttpPost("search-order-details")]
+
+        public IActionResult SearchOrderDetails([FromBody]SearchOrderDetailsReq req)
+        {
+            var res = new SingleRsp();
+            var pros = _svc.SearchOrderDetails(req.Keyword, req.Page, req.Size);
+            res.Data = pros;
+            return Ok(res);
+        }
+
+        [HttpPost("create-order-details")]
+
+        public IActionResult CreateOrderDetails([FromBody]CreateOrderDetailReq req)
+        {
+            var res = _svc.CreateOrderDetails(req);
+            return Ok(res);
+        }
+
+        [HttpPost("update-order-details")]
+
+        public IActionResult UpdateOrderDetails([FromBody]OrderDetailsReq req)
+        {
+            var res = _svc.UpdateOrderDetails(req);
+            return Ok(res);
+        }
+
+        [HttpPost("delete-order-details")]
+        public IActionResult DeleteOrderDetails(OrderDetailsReq req)
+        {
+            var res = _svc.DeleteOrderDetails(req.OrderId);
+            return Ok(res);
+        }
         private readonly OrderDetailsSvc _svc;
     }
 }

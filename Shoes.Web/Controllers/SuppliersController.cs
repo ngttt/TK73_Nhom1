@@ -39,6 +39,39 @@ namespace Shoes.Web.Controllers
             return Ok(res);
         }
 
+        [HttpPost("search-supplier")]
+
+        public IActionResult SearchSupplier([FromBody]SearchSupplierReq1 req)
+        {
+            var res = new SingleRsp();
+            var pros = _svc.SearchSupplier(req.Keyword, req.Page, req.Size);
+            res.Data = pros;
+            return Ok(res);
+        }
+
+        [HttpPost("create-supplier")]
+
+        public IActionResult CreateSupplier([FromBody]CreateSupplierReq req)
+        {
+            var res = _svc.CreateSupplier(req);
+            return Ok(res);
+        }
+
+        [HttpPost("update-supplier")]
+
+        public IActionResult UpdateSupplier([FromBody]SupplierReq req)
+        {
+            var res = _svc.UpdateSupplier(req);
+            return Ok(res);
+        }
+
+        [HttpPost("delete-suppliers")]
+        public IActionResult DeleteSuppliers (SupplierReq req)
+        {
+            var res = _svc.DeleteSuppliers(req.SuppliersId);
+            return Ok(res);
+        }
+
         private readonly SuppliersSvc _svc;
     }
 }

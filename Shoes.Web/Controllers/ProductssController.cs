@@ -52,7 +52,7 @@ namespace Shoes.Web.Controllers
 
         [HttpPost("create-product")]
 
-        public IActionResult CreateProduct([FromBody]ProductssReq req)
+        public IActionResult CreateProduct([FromBody]CreateProductReq req)
         {        
             var res = _svc.CreateProduct(req);
             return Ok(res);
@@ -66,6 +66,12 @@ namespace Shoes.Web.Controllers
             return Ok(res);
         }
 
+        [HttpPost("delete-product")]
+        public IActionResult DeleteProduct(DeleteProductReq req)
+        {
+            var res = _svc.DeleteProductss(req.ProductId);
+            return Ok(res);
+        }
         private readonly ProductssSvc _svc;
     }
 }

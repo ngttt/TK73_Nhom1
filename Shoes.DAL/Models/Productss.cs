@@ -7,7 +7,7 @@ namespace Shoes.DAL.Models
     {
         public Productss()
         {
-            OderDetails = new HashSet<OderDetails>();
+            OrderDetails = new HashSet<OrderDetails>();
         }
 
         public int ProductId { get; set; }
@@ -21,6 +21,6 @@ namespace Shoes.DAL.Models
 
         public virtual Categories Category { get; set; }
         public virtual Suppliers Supplier { get; set; }
-        public virtual ICollection<OderDetails> OderDetails { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

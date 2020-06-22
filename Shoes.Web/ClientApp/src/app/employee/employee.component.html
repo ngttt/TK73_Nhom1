@@ -1,0 +1,81 @@
+<h4 id="tableLabel">Employees</h4>
+
+
+<p *ngIf="!employees"><em>Loading...</em></p>
+<!-- tạo button new và edit nếu sự kiện click là true thì mở modal new còn false thì mở modal edit -->
+<button class="btn btn-primary" (click)="openModal(true,null)" >Add New Employee</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="employees.totalRecord>0">
+  <thead>
+    <tr>
+      <th>Employee Id</th>
+      <th>Last Name</th>
+      <th>First Name</th>
+      <th>Country</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of employees.data">
+      <td>{{ p.employeeId }}</td>
+      <td>{{ p.lastName }}</td>
+      <td>{{ p.firstName }}</td>
+      <td>{{ p.country }}</td>
+      <td>
+        <button class="btn btn-info btn-sm" (click)="openModal(false,p)" >Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteEmployee(p)" >Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- phân trang -->
+<ul class="pagination">
+    <li class="page-item">
+        <a href="javascript:void(0);" (click)="searchPrevious()">Previous</a>
+    </li>
+    <li class="page-item">{{employees.page}}</li>
+    <li class="page-item">
+        <a href="javascript:void(0);" (click)="searchNext()">Next</a>
+    </li>
+</ul>
+<!-- Modal cho xóa zs edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="!isEdit" id="emxampleModalLabel">Add New Employees</h5>
+          <h5 class="modal-title" *ngIf="isEdit" id="emxampleModalLabel">Edit Employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class = "row" *ngIf="isEdit">
+            <div class="col-3">Employee ID</div>
+            <div class="col-8"><input class="form-control" [(ngModel)] = "employee.employeeId"></div>
+          </div> <br>
+    
+          <div class = "row">
+            <div class="col-3">First Name</div>
+            <div class="col-8"><input class="form-control" [(ngModel)] = "employee.firstName"></div>
+          </div> <br>
+
+          <div class = "row">
+            <div class="col-3">Last Name</div>
+            <div class="col-8"><input class="form-control" [(ngModel)] = "employee.lastName"></div>
+          </div> <br>
+
+          <div class = "row">
+            <div class="col-3">Country</div>
+            <div class="col-8"><input class="form-control" [(ngModel)] = "employee.country"></div>
+          </div> <br>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button *ngIf="isEdit" type="button" class="btn btn-primary" (click) = "updateEmployee()">Save</button>
+          <button *ngIf="!isEdit" type="button" class="btn btn-success" (click)="addEmployee()">Add</button>
+        </div>
+      </div>
+    </div>
+    </div>
+

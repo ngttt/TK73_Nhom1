@@ -69,5 +69,12 @@ namespace Shoes.DAL
                     return res;
                 }
             }
+        public int RemoveProductss (int id)
+        {
+            var m = base.All.First(i => i.ProductId == id);
+            Context.Remove(m);
+            Context.SaveChanges();
+            return m.CategoryId;
+        }
     }
 }

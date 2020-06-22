@@ -1,0 +1,69 @@
+<h4 id="tableLabel">Category</h4>
+
+
+<p *ngIf="!categories"><em>Loading...</em></p>
+<!-- tạo button new và edit nếu sự kiện click là true thì mở modal new còn false thì mở modal edit -->
+<button class="btn btn-primary" (click)="openModal(true,null)" >Add New Category</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="categories.totalRecord>0">
+  <thead>
+    <tr>
+      <th>Category Id</th>
+      <th>Category Name</th>
+      <th>Action</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of categories.data">
+      <td>{{ p.categoryId }}</td>
+      <td>{{ p.categoryName }}</td>
+      <td>
+        <button class="btn btn-info btn-sm" (click)="openModal(false,p)" >Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteCategory(p)" >Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- phân trang -->
+<ul class="pagination">
+  <li class="page-item">
+      <a href="javascript:void(0);" (click)="searchPrevious()">Previous</a>
+  </li>
+  <li class="page-item">{{categories.page}}</li>
+  <li class="page-item">
+      <a href="javascript:void(0);" (click)="searchNext()">Next</a>
+  </li>
+</ul>
+
+<!-- Modal cho xóa zs edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" *ngIf="!isEdit" id="emxampleModalLabel">Add New Category</h5>
+      <h5 class="modal-title" *ngIf="isEdit" id="emxampleModalLabel">Edit Category</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class = "row" *ngIf="isEdit">
+        <div class="col-6">Category ID</div>
+        <div class="col-8"><input class="form-control" [(ngModel)] = "category.categoryId"></div>
+      </div> <br>
+
+      <div class = "row">
+        <div class="col-6">Category Name</div>
+        <div class="col-8"><input class="form-control" [(ngModel)] = "category.categoryName"></div>
+      </div> <br>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button *ngIf="isEdit" type="button" class="btn btn-primary" (click) = "updateCategory()">Save</button>
+      <button *ngIf="!isEdit" type="button" class="btn btn-success" (click)="addCategory()">Add</button>
+    </div>
+  </div>
+</div>
+</div>

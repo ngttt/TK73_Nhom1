@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shoes.Common.Req
 {
-    class CategoriesReq
+    public class CategoriesReq
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }

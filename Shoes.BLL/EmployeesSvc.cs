@@ -9,6 +9,7 @@ namespace Shoes.BLL
 {
     using DAL;
     using DAL.Models;
+    using Shoes.Common.Req;
 
     public class EmployeesSvc : GenericSvc<EmployeesRep, Employees>
     {
@@ -62,5 +63,59 @@ namespace Shoes.BLL
 
 
         #endregion
+        public object SearchEmployees(string keyword, int page, int size)
+        {
+            var pro = All.Where(x => x.FirstName.Contains(keyword));
+            var offset = (page - 1) * size;
+            var total = pro.Count();
+            int totalPage = ((total) % size) == 0 ? (total / size) : ((int)(total / size) + 1);
+            var data = pro.OrderBy(x => x.EmployeeId).Skip(offset).Take(size).ToList();
+            var res = new
+            {
+                Data = data,
+                TotalRecord = total,
+                TotalPage = totalPage,
+                Size = size,
+                Page = page,
+            };
+            return res;
+        }
+
+        public SingleRsp CreateEmployees(CreateEmployeesReq emp)
+        {
+            var res = new SingleRsp();
+            Employees employees = new Employees();
+            //employees.EmployeeId = emp.EmployeeId;
+            employees.FirstName = emp.FirstName;
+            employees.LastName = emp.LastName;
+            employees.Country = emp.Country;
+            res = _rep.CreateEmployees(employees);
+            return res;
+        }
+
+        public SingleRsp UpdateEmployees(EmployeesReq emp)
+        {
+            var res = new SingleRsp();
+            Employees employees = new Employees();
+            employees = _rep.Read(emp.EmployeeId);
+            employees.FirstName = emp.FirstName;
+            employees.LastName = emp.LastName;
+            employees.Country = emp.Country;
+            res = _rep.UpdateEmployees(employees);
+            return res;
+        }
+        public SingleRsp DeleteEmployees(int id)
+        {
+            var res = new SingleRsp();
+            try
+            {
+                res.Data = _rep.RemoveEmployees(id);
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.StackTrace);
+            }
+            return res;
+        }
     }
 }

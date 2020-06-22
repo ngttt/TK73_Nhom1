@@ -4,6 +4,9 @@ using System.Linq;
 namespace Shoes.DAL
 {
     using Models;
+    using Shoes.Common.Rsp;
+    using System;
+
     public class SuppliersRep : GenericRep<quanlybangiayContext, Suppliers>
     {
         #region -- Overrides --
@@ -41,5 +44,60 @@ namespace Shoes.DAL
         /// </summary>
 
         #endregion
+
+        public SingleRsp CreateSupplier(Suppliers spl)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Suppliers.Add(spl);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+
+        public SingleRsp UpdateSupplier(Suppliers spl)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Suppliers.Update(spl);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+
+        public int RemoveSuppliers(int id)
+        {
+            var m = base.All.First(i => i.SuppliersId == id);
+            Context.Suppliers.Remove(m);
+            Context.SaveChanges();
+            return m.SuppliersId;
+        }
+
     }
 }

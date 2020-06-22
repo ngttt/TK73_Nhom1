@@ -1,6 +1,5 @@
-<p>product works!</p>
 
-<h1 id="tableLabel">Products</h1>
+<h4 id="tableLabel">Products</h4>
 
 
 <p *ngIf="!products"><em>Loading...</em></p>
@@ -10,17 +9,21 @@
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="products.totalRecord>0">
   <thead>
     <tr>
+      <th>Image</th>
       <th>Product Id</th>
       <th>Product Name</th>
       <th>Unit Price</th>
+      <th>Unit In Stock</th>
       <th>Action</th> 
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let p of products.data">
+      <td> <img src = {{p.image}} > </td>
       <td>{{ p.productId }}</td>
       <td>{{ p.productName }}</td>
       <td>{{ p.unitPrice }}</td>
+      <td>{{ p.unitInStock }}</td>
       <td>
         <button class="btn btn-info btn-sm" (click)="openModal(false,p)" >Edit</button>
         <button class="btn btn-danger btn-sm" (click)="deleteProduct(p)" >Delete</button>
@@ -45,34 +48,41 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" *ngIf="isEdit" id="emxampleModalLabel">Add New Product</h5>
-        <h5 class="modal-title" *ngIf="!isEdit" id="emxampleModalLabel">Edit Product</h5>
+        <h5 class="modal-title" *ngIf="!isEdit" id="emxampleModalLabel">Add New Product</h5>
+        <h5 class="modal-title" *ngIf="isEdit" id="emxampleModalLabel">Edit Product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class = "row" *ngIf="isEdit">
-          <div class="col-4">Product ID</div>
+          <div class="col-3">Product ID</div>
           <div class="col-8"><input class="form-control" [(ngModel)] = "product.productId"></div>
         </div> <br>
 
         <div class = "row">
-          <div class="col-4">Product Name</div>
+          <div class="col-3">Product Name</div>
           <div class="col-8"><input class="form-control" [(ngModel)] = "product.productName"></div>
         </div> <br>
 
           
         <div class = "row">
-          <div class="col-4">Unit Price</div>
+          <div class="col-3">Unit Price</div>
           <div class="col-8"><input class="form-control" [(ngModel)] = "product.unitPrice" type="number"></div>
-        </div>
+        </div> <br>
+
+
+        <div class = "row">
+          <div class="col-3">Unit In Stock</div>
+          <div class="col-8"><input class="form-control" [(ngModel)] = "product.unitInStock" type="number"></div>
+        </div> <br>
+    
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click) = updateProduct()>Save</button>
-        <button type="button" class="btn btn-success" (click)="addProduct()">Add</button>
+        <button *ngIf="isEdit" type="button" class="btn btn-primary" (click) = "updateProduct()">Save</button>
+        <button *ngIf="!isEdit" type="button" class="btn btn-success" (click)="addProduct()">Add</button>
       </div>
     </div>
   </div>

@@ -4,6 +4,9 @@ using System.Linq;
 namespace Shoes.DAL
 {
     using Models;
+    using Shoes.Common.Rsp;
+    using System;
+
     public class CategoriesRep : GenericRep<quanlybangiayContext, Categories>
     {
         #region -- Overrides --
@@ -41,5 +44,58 @@ namespace Shoes.DAL
         /// </summary>
 
         #endregion
-    }
+        public SingleRsp CreateCategories(Categories ctg)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Categories.Add(ctg);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+
+        public SingleRsp UpdateCategories(Categories ctg)
+        {
+            var res = new SingleRsp();
+            using (var context = new quanlybangiayContext())
+            {
+                using (var tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var t = context.Categories.Update(ctg);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+                return res;
+            }
+        }
+        
+        public int RemoveCategories(int id)
+        {
+            var m = base.All.First(i => i.CategoryId == id);
+            Context.Remove(m);
+            Context.SaveChanges();
+            return m.CategoryId;
+        }
+        }
 }

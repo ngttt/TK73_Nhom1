@@ -1,0 +1,74 @@
+<h4 id="tableLabel">Suppliers</h4>
+
+
+<p *ngIf="!suppliers"><em>Loading...</em></p>
+<!-- tạo button new và edit nếu sự kiện click là true thì mở modal new còn false thì mở modal edit -->
+<button class="btn btn-primary" (click)="openModal(true,null)" >Add New Supplier</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="suppliers.totalRecord>0">
+  <thead>
+    <tr>
+      <th>Supplier Id</th>
+      <th>Supplier Name</th>
+      <th>City</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of suppliers.data">
+      <td>{{ p.suppliersId }}</td>
+      <td>{{ p.suppliersName }}</td>
+      <td>{{ p.city }}</td>
+      <td>
+        <button class="btn btn-info btn-sm" (click)="openModal(false,p)" >Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteSupplier(p)" >Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- phân trang -->
+<ul class="pagination">
+  <li class="page-item">
+      <a href="javascript:void(0);" (click)="searchPrevious()">Previous</a>
+  </li>
+  <li class="page-item">{{suppliers.page}}</li>
+  <li class="page-item">
+      <a href="javascript:void(0);" (click)="searchNext()">Next</a>
+  </li>
+</ul>
+
+<!-- Modal cho xóa zs edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" *ngIf="!isEdit" id="emxampleModalLabel">Add New Supplier</h5>
+      <h5 class="modal-title" *ngIf="isEdit" id="emxampleModalLabel">Edit Supplier</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class = "row" *ngIf="isEdit">
+        <div class="col-4">Supplier ID</div>
+        <div class="col-8"><input class="form-control" [(ngModel)] = "supplier.suppliersId"></div>
+      </div> <br>
+
+      <div class = "row">
+        <div class="col-4">Supplier Name</div>
+        <div class="col-8"><input class="form-control" [(ngModel)] = "supplier.suppliersName"></div>
+      </div> <br>
+      
+      <div class = "row">
+        <div class="col-4">City</div>
+        <div class="col-8"><input class="form-control" [(ngModel)] = "supplier.city"></div>
+      </div> <br>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button *ngIf="isEdit" type="button" class="btn btn-primary" (click) = "updateSupplier()">Save</button>
+      <button *ngIf="!isEdit" type="button" class="btn btn-success" (click)="addSupplier()">Add</button>
+    </div>
+  </div>
+</div>
+</div>

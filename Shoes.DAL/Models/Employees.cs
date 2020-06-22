@@ -7,7 +7,7 @@ namespace Shoes.DAL.Models
     {
         public Employees()
         {
-            Oders = new HashSet<Oders>();
+            Orders = new HashSet<Orders>();
         }
 
         public int EmployeeId { get; set; }
@@ -15,6 +15,6 @@ namespace Shoes.DAL.Models
         public string FirstName { get; set; }
         public string Country { get; set; }
 
-        public virtual ICollection<Oders> Oders { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }
